@@ -1,7 +1,7 @@
-import Link from 'next/link'
-import { Bookmark, Building2, FileText, Image as ImageIcon, Sparkles } from 'lucide-react'
+import { Bookmark, Building2, FileText, Image as ImageIcon, Tag } from 'lucide-react'
 import { NavbarShell } from '@/components/shared/navbar-shell'
 import { Footer } from '@/components/shared/footer'
+import { RegisterForm } from '@/components/auth/register-form'
 import { getFactoryState } from '@/design/factory/get-factory-state'
 import { getProductKind } from '@/design/factory/get-product-kind'
 import { REGISTER_PAGE_OVERRIDE_ENABLED, RegisterPageOverride } from '@/overrides/register-page'
@@ -9,14 +9,14 @@ import { REGISTER_PAGE_OVERRIDE_ENABLED, RegisterPageOverride } from '@/override
 function getRegisterConfig(kind: ReturnType<typeof getProductKind>) {
   if (kind === 'directory') {
     return {
-      shell: 'bg-[#f8fbff] text-slate-950',
-      panel: 'border border-slate-200 bg-white',
-      side: 'border border-slate-200 bg-slate-50',
-      muted: 'text-slate-600',
-      action: 'bg-slate-950 text-white hover:bg-slate-800',
-      icon: Building2,
-      title: 'Create a business-ready account',
-      body: 'List services, manage locations, and activate trust signals with a proper directory workflow.',
+      shell: 'bg-[#ecf5f1] text-[#05201c]',
+      panel: 'border border-[#0a3d2e]/12 bg-white shadow-[0_24px_80px_rgba(5,32,28,0.08)]',
+      side: 'border border-[#0a3d2e]/15 bg-[#05201c] text-white',
+      muted: 'text-[#c5e8dc]',
+      action: 'bg-[#008c72] text-white hover:bg-[#007764]',
+      icon: Tag,
+      title: 'Join the marketplace',
+      body: 'Create a free account to post classified ads, save favorites, and chat with buyers and sellers. Your profile is stored locally on this device after sign-in.',
     }
   }
   if (kind === 'editorial') {
@@ -82,21 +82,8 @@ export default function RegisterPage() {
           </div>
 
           <div className={`rounded-[2rem] p-8 ${config.panel}`}>
-            <p className="text-xs font-semibold uppercase tracking-[0.24em] opacity-70">Create account</p>
-            <form className="mt-6 grid gap-4">
-              <input className="h-12 rounded-xl border border-current/10 bg-transparent px-4 text-sm" placeholder="Full name" />
-              <input className="h-12 rounded-xl border border-current/10 bg-transparent px-4 text-sm" placeholder="Email address" />
-              <input className="h-12 rounded-xl border border-current/10 bg-transparent px-4 text-sm" placeholder="Password" type="password" />
-              <input className="h-12 rounded-xl border border-current/10 bg-transparent px-4 text-sm" placeholder="What are you creating or publishing?" />
-              <button type="submit" className={`inline-flex h-12 items-center justify-center rounded-full px-6 text-sm font-semibold ${config.action}`}>Create account</button>
-            </form>
-            <div className={`mt-6 flex items-center justify-between text-sm ${config.muted}`}>
-              <span>Already have an account?</span>
-              <Link href="/login" className="inline-flex items-center gap-2 font-semibold hover:underline">
-                <Sparkles className="h-4 w-4" />
-                Sign in
-              </Link>
-            </div>
+            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#3d5249]">Create account</p>
+            <RegisterForm actionClassName={config.action} />
           </div>
         </section>
       </main>

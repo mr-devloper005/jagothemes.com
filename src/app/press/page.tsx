@@ -16,6 +16,8 @@ import {
 import { useToast } from '@/components/ui/use-toast'
 import { mockPressAssets, mockPressCoverage } from '@/data/mock-data'
 
+const card = 'rounded-[15px] border border-[#0a3d2e]/10 bg-white shadow-[0_12px_40px_rgba(5,32,28,0.06)]'
+
 export default function PressPage() {
   const { toast } = useToast()
   const [activeAssetId, setActiveAssetId] = useState<string | null>(null)
@@ -23,31 +25,42 @@ export default function PressPage() {
 
   return (
     <PageShell
-      title="Press"
-      description="Media resources, brand assets, and press coverage."
+      title="Press room"
+      description="Logos, screenshots, and story angles for journalists covering local commerce, trust & safety, and how classifieds behave in Bangladesh."
     >
-      <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-        <Card className="border-border bg-card">
-          <CardContent className="p-6 space-y-3">
-            <h2 className="text-lg font-semibold text-foreground">Press Kit</h2>
-            <p className="text-sm text-muted-foreground">
-              Download logos, product screenshots, and brand guidelines for media use.
-            </p>
-            <div className="grid gap-2">
+      <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
+        <Card className={card}>
+          <CardContent className="space-y-4 p-6 sm:p-7">
+            <div>
+              <h2 className="text-lg font-bold text-[#05201c]">Brand kit</h2>
+              <p className="mt-1 text-sm leading-relaxed text-[#3d5249]">
+                Approved assets for print and digital — preview before download so you grab the right crop.
+              </p>
+            </div>
+            <div className="grid gap-3">
               {mockPressAssets.map((asset) => (
-                <div key={asset.id} className="rounded-lg border border-border bg-secondary/40 px-4 py-3">
+                <div
+                  key={asset.id}
+                  className="rounded-[12px] border border-[#0a3d2e]/10 bg-[#f7fbfa] px-4 py-4 transition-colors hover:border-[#008c72]/25"
+                >
                   <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                     <div>
-                      <p className="text-sm font-medium text-foreground">{asset.title}</p>
-                      <p className="text-xs text-muted-foreground">{asset.description}</p>
+                      <p className="text-sm font-semibold text-[#05201c]">{asset.title}</p>
+                      <p className="text-xs text-[#3d5249]">{asset.description}</p>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <Badge variant="secondary">{asset.fileType}</Badge>
-                      <Button size="sm" variant="outline" onClick={() => setActiveAssetId(asset.id)}>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <Badge className="border border-[#008c72]/20 bg-[#008c72]/10 text-[#008c72]">{asset.fileType}</Badge>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="rounded-full border-[#0a3d2e]/15"
+                        onClick={() => setActiveAssetId(asset.id)}
+                      >
                         Preview
                       </Button>
                       <Button
                         size="sm"
+                        className="rounded-full bg-[#008c72] text-white hover:bg-[#007764]"
                         onClick={() =>
                           toast({
                             title: 'Download started',
@@ -65,12 +78,13 @@ export default function PressPage() {
           </CardContent>
         </Card>
         <div className="space-y-4">
+          <h2 className="text-sm font-bold uppercase tracking-wide text-[#008c72]">Coverage</h2>
           {mockPressCoverage.map((item) => (
-            <Card key={item.id} className="border-border bg-card transition-transform hover:-translate-y-1">
+            <Card key={item.id} className={`${card} transition-transform hover:-translate-y-0.5`}>
               <CardContent className="p-6">
-                <div className="text-xs uppercase tracking-wide text-muted-foreground">{item.outlet}</div>
-                <p className="mt-2 text-sm text-foreground">{item.headline}</p>
-                <p className="mt-2 text-xs text-muted-foreground">{item.date}</p>
+                <div className="text-xs font-medium uppercase tracking-wide text-[#3d5249]">{item.outlet}</div>
+                <p className="mt-2 text-sm font-medium leading-snug text-[#05201c]">{item.headline}</p>
+                <p className="mt-2 text-xs text-[#3d5249]">{item.date}</p>
               </CardContent>
             </Card>
           ))}
@@ -78,26 +92,22 @@ export default function PressPage() {
       </div>
 
       <Dialog open={Boolean(activeAsset)} onOpenChange={() => setActiveAssetId(null)}>
-        <DialogContent className="max-w-3xl">
+        <DialogContent className="max-w-3xl border-[#0a3d2e]/15">
           <DialogHeader>
-            <DialogTitle>{activeAsset?.title}</DialogTitle>
+            <DialogTitle className="text-[#05201c]">{activeAsset?.title}</DialogTitle>
           </DialogHeader>
           {activeAsset?.previewUrl && (
-            <div className="relative aspect-[16/9] overflow-hidden rounded-xl border border-border bg-muted">
-              <Image
-                src={activeAsset.previewUrl}
-                alt={activeAsset.title}
-                fill
-                className="object-cover"
-              />
+            <div className="relative aspect-[16/9] overflow-hidden rounded-[12px] border border-[#0a3d2e]/10 bg-[#f7fbfa]">
+              <Image src={activeAsset.previewUrl} alt={activeAsset.title} fill className="object-cover" />
             </div>
           )}
-          <p className="text-sm text-muted-foreground">{activeAsset?.description}</p>
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setActiveAssetId(null)}>
+          <p className="text-sm text-[#3d5249]">{activeAsset?.description}</p>
+          <DialogFooter className="gap-2 sm:gap-0">
+            <Button variant="outline" className="rounded-full border-[#0a3d2e]/15" onClick={() => setActiveAssetId(null)}>
               Close
             </Button>
             <Button
+              className="rounded-full bg-[#008c72] text-white hover:bg-[#007764]"
               onClick={() =>
                 toast({
                   title: 'Download started',

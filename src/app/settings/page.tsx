@@ -30,6 +30,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { NavbarShell } from "@/components/shared/navbar-shell"
+import { Footer } from "@/components/shared/footer"
 import { useAuth } from "@/lib/auth-context"
 import { useToast } from "@/components/ui/use-toast"
 import { loadFromStorage, saveToStorage, storageKeys } from "@/lib/local-storage"
@@ -236,13 +237,27 @@ export default function SettingsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-[linear-gradient(180deg,#f0f7f4_0%,#ffffff_52%,#f7fbfa_100%)] text-[#05201c]">
       <NavbarShell />
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <h1 className="text-3xl font-bold text-foreground mb-8">Settings</h1>
+      <header className="relative overflow-hidden bg-[#05201c] text-white shadow-[0_12px_40px_rgba(5,32,28,0.2)]">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-30"
+          style={{
+            backgroundImage:
+              "radial-gradient(circle at 15% 20%, rgba(0, 140, 114, 0.45), transparent 42%), radial-gradient(circle at 90% 10%, rgba(255,255,255,0.12), transparent 35%)",
+          }}
+        />
+        <div className="relative mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
+          <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">Account settings</h1>
+          <p className="mt-3 max-w-2xl text-sm leading-relaxed text-white/85 sm:text-base">
+            Profile, notifications, and privacy — tuned for buying and selling locally. Changes save to this browser unless noted.
+          </p>
+        </div>
+      </header>
 
-        <div className="flex flex-col lg:flex-row gap-8">
+      <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
+        <div className="flex flex-col gap-8 lg:flex-row">
           {/* Sidebar */}
           <div className="lg:w-64 flex-shrink-0">
             <nav className="space-y-1">
@@ -250,10 +265,10 @@ export default function SettingsPage() {
                 <button
                   key={section.id}
                   onClick={() => setActiveSection(section.id)}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition-colors ${
+                  className={`flex w-full items-center gap-3 rounded-[12px] px-4 py-3 text-left transition-colors ${
                     activeSection === section.id
-                      ? "bg-primary/10 text-primary"
-                      : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                      ? "bg-[#008c72]/12 font-medium text-[#008c72]"
+                      : "text-[#3d5249] hover:bg-white/80 hover:text-[#05201c]"
                   }`}
                 >
                   <section.icon className="h-5 w-5" />
@@ -264,7 +279,7 @@ export default function SettingsPage() {
               <Separator className="my-4" />
               <button
                 onClick={handleLogout}
-                className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left text-destructive hover:bg-destructive/10 transition-colors"
+                className="flex w-full items-center gap-3 rounded-[12px] px-4 py-3 text-left text-red-700 transition-colors hover:bg-red-50"
               >
                 <LogOut className="h-5 w-5" />
                 Log out
@@ -279,16 +294,16 @@ export default function SettingsPage() {
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.2 }}
-              className="bg-card rounded-xl border border-border p-6"
+              className="rounded-[15px] border border-[#0a3d2e]/10 bg-white p-6 shadow-[0_12px_40px_rgba(5,32,28,0.06)] sm:p-8"
             >
               {/* Profile Section */}
               {activeSection === "profile" && (
                 <div className="space-y-6">
                   <div>
-                    <h2 className="text-xl font-semibold text-foreground mb-1">
+                    <h2 className="text-xl font-semibold text-[#05201c] mb-1">
                       Profile Information
                     </h2>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-sm text-[#3d5249]">
                       Update your personal information and profile picture.
                     </p>
                   </div>
@@ -336,7 +351,7 @@ export default function SettingsPage() {
                       >
                         Upload new photo
                       </Button>
-                      <p className="text-xs text-muted-foreground mt-2">
+                      <p className="text-xs text-[#3d5249] mt-2">
                         JPG, PNG or GIF. Max size 2MB.
                       </p>
                     </div>
@@ -374,7 +389,7 @@ export default function SettingsPage() {
                       >
                         Upload cover image
                       </Button>
-                      <span className="text-xs text-muted-foreground">
+                      <span className="text-xs text-[#3d5249]">
                         Recommended size 1280x320.
                       </span>
                     </div>
@@ -412,7 +427,7 @@ export default function SettingsPage() {
                         rows={4}
                         disabled={!isEditingProfile}
                       />
-                      <p className="text-xs text-muted-foreground">
+                      <p className="text-xs text-[#3d5249]">
                         Brief description for your profile. Max 160 characters.
                       </p>
                     </div>
@@ -462,10 +477,10 @@ export default function SettingsPage() {
               {activeSection === "notifications" && (
                 <div className="space-y-6">
                   <div>
-                    <h2 className="text-xl font-semibold text-foreground mb-1">
+                    <h2 className="text-xl font-semibold text-[#05201c] mb-1">
                       Notification Preferences
                     </h2>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-sm text-[#3d5249]">
                       Manage how you receive notifications.
                     </p>
                   </div>
@@ -476,7 +491,7 @@ export default function SettingsPage() {
                     <div className="flex items-center justify-between">
                       <div className="space-y-0.5">
                         <Label>Email notifications</Label>
-                        <p className="text-sm text-muted-foreground">
+                        <p className="text-sm text-[#3d5249]">
                           Receive email notifications for important updates.
                         </p>
                       </div>
@@ -488,7 +503,7 @@ export default function SettingsPage() {
                     <div className="flex items-center justify-between">
                       <div className="space-y-0.5">
                         <Label>Push notifications</Label>
-                        <p className="text-sm text-muted-foreground">
+                        <p className="text-sm text-[#3d5249]">
                           Get push notifications on your devices.
                         </p>
                       </div>
@@ -500,7 +515,7 @@ export default function SettingsPage() {
                     <div className="flex items-center justify-between">
                       <div className="space-y-0.5">
                         <Label>Marketing emails</Label>
-                        <p className="text-sm text-muted-foreground">
+                        <p className="text-sm text-[#3d5249]">
                           Receive emails about new features and promotions.
                         </p>
                       </div>
@@ -512,7 +527,7 @@ export default function SettingsPage() {
                     <div className="flex items-center justify-between">
                       <div className="space-y-0.5">
                         <Label>Weekly digest</Label>
-                        <p className="text-sm text-muted-foreground">
+                        <p className="text-sm text-[#3d5249]">
                           Get a weekly summary of activity.
                         </p>
                       </div>
@@ -535,10 +550,10 @@ export default function SettingsPage() {
               {activeSection === "privacy" && (
                 <div className="space-y-6">
                   <div>
-                    <h2 className="text-xl font-semibold text-foreground mb-1">
+                    <h2 className="text-xl font-semibold text-[#05201c] mb-1">
                       Privacy & Security
                     </h2>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-sm text-[#3d5249]">
                       Control your privacy settings and account security.
                     </p>
                   </div>
@@ -566,7 +581,7 @@ export default function SettingsPage() {
                     <div className="flex items-center justify-between">
                       <div className="space-y-0.5">
                         <Label>Show email on profile</Label>
-                        <p className="text-sm text-muted-foreground">
+                        <p className="text-sm text-[#3d5249]">
                           Allow others to see your email address.
                         </p>
                       </div>
@@ -579,7 +594,7 @@ export default function SettingsPage() {
                     <div className="flex items-center justify-between">
                       <div className="space-y-0.5">
                         <Label>Allow direct messages</Label>
-                        <p className="text-sm text-muted-foreground">
+                        <p className="text-sm text-[#3d5249]">
                           Let others send you private messages.
                         </p>
                       </div>
@@ -592,16 +607,16 @@ export default function SettingsPage() {
                     <Separator />
 
                     <div>
-                      <h3 className="text-lg font-medium text-foreground mb-4">
+                      <h3 className="text-lg font-medium text-[#05201c] mb-4">
                         Danger Zone
                       </h3>
                       <div className="p-4 border border-destructive/20 rounded-lg bg-destructive/5">
                         <div className="flex items-center justify-between">
                           <div>
-                            <p className="font-medium text-foreground">
+                            <p className="font-medium text-[#05201c]">
                               Delete account
                             </p>
-                            <p className="text-sm text-muted-foreground">
+                            <p className="text-sm text-[#3d5249]">
                               Permanently delete your account and all data.
                             </p>
                           </div>
@@ -635,10 +650,10 @@ export default function SettingsPage() {
               {activeSection === "appearance" && (
                 <div className="space-y-6">
                   <div>
-                    <h2 className="text-xl font-semibold text-foreground mb-1">
+                    <h2 className="text-xl font-semibold text-[#05201c] mb-1">
                       Appearance
                     </h2>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-sm text-[#3d5249]">
                       Customize how the platform looks for you.
                     </p>
                   </div>
@@ -679,10 +694,10 @@ export default function SettingsPage() {
               {activeSection === "language" && (
                 <div className="space-y-6">
                   <div>
-                    <h2 className="text-xl font-semibold text-foreground mb-1">
+                    <h2 className="text-xl font-semibold text-[#05201c] mb-1">
                       Language & Region
                     </h2>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-sm text-[#3d5249]">
                       Set your preferred language and regional settings.
                     </p>
                   </div>
@@ -763,6 +778,7 @@ export default function SettingsPage() {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   )
 }

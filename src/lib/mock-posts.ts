@@ -89,7 +89,7 @@ const taskTitles: Record<TaskKey, string[]> = {
 
 const taskCategories: Record<TaskKey, string[]> = {
   listing: ["Marketing", "Tech", "Design", "Fitness", "Automotive"],
-  classified: ["Jobs", "Real Estate", "Services", "Gigs", "Market"],
+  classified: ["Vehicles", "Houses", "Mobiles", "Bikes", "Vehicles"],
   article: ["Strategy", "SEO", "Product", "Growth", "Ops"],
   image: ["Lifestyle", "Travel", "Studio", "Urban", "Minimal"],
   profile: ["Founder", "Creator", "Agency", "Team", "Consultant"],

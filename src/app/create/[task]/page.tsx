@@ -5,6 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, Plus, Save } from "lucide-react";
 import { NavbarShell } from "@/components/shared/navbar-shell";
+import { Footer } from "@/components/shared/footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -35,8 +36,8 @@ type Field = {
 
 const FORM_CONFIG: Record<TaskKey, { title: string; description: string; fields: Field[] }> = {
   listing: {
-    title: "Create Business Listing",
-    description: "Add a local-only listing with business details.",
+    title: "List your business",
+    description: "Local-only draft: hours, location, and what makes your shop worth visiting.",
     fields: [
       { key: "title", label: "Listing title", type: "text", required: true },
       { key: "summary", label: "Short summary", type: "textarea", required: true },
@@ -53,8 +54,8 @@ const FORM_CONFIG: Record<TaskKey, { title: string; description: string; fields:
     ],
   },
   classified: {
-    title: "Create Classified",
-    description: "Add a local-only classified ad.",
+    title: "Post a classified ad",
+    description: "Vehicles, homes, phones, or bikes — saved locally in your browser until you publish flows go live.",
     fields: [
       { key: "title", label: "Ad title", type: "text", required: true },
       { key: "summary", label: "Short summary", type: "textarea", required: true },
@@ -182,17 +183,16 @@ export default function CreateTaskPage() {
 
   if (!taskConfig || !formConfig) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-[linear-gradient(180deg,#f0f7f4_0%,#ffffff_52%,#f7fbfa_100%)] text-[#05201c]">
         <NavbarShell />
-        <main className="mx-auto max-w-3xl px-4 py-16 text-center">
-          <h1 className="text-2xl font-semibold text-foreground">Task not available</h1>
-          <p className="mt-2 text-muted-foreground">
-            This task is not enabled for the current site.
-          </p>
-          <Button className="mt-6" asChild>
+        <main className="mx-auto max-w-3xl px-4 py-16 text-center sm:px-6">
+          <h1 className="text-2xl font-bold tracking-tight">Task not available</h1>
+          <p className="mt-2 text-sm text-[#3d5249]">This task is not enabled for the current site.</p>
+          <Button className="mt-6 rounded-full bg-[#008c72] text-white hover:bg-[#007764]" asChild>
             <Link href="/">Back home</Link>
           </Button>
         </main>
+        <Footer />
       </div>
     );
   }
@@ -271,25 +271,27 @@ export default function CreateTaskPage() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-[linear-gradient(180deg,#f0f7f4_0%,#ffffff_52%,#f7fbfa_100%)] text-[#05201c]">
       <NavbarShell />
-      <main className="mx-auto max-w-4xl px-4 py-12">
+      <main className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="mb-8 flex items-center gap-3">
-          <Button variant="ghost" size="icon" asChild>
+          <Button variant="ghost" size="icon" className="rounded-full text-[#05201c] hover:bg-white/80" asChild>
             <Link href="/">
               <ArrowLeft className="h-5 w-5" />
             </Link>
           </Button>
           <div>
-            <h1 className="text-2xl font-semibold text-foreground">{formConfig.title}</h1>
-            <p className="text-sm text-muted-foreground">{formConfig.description}</p>
+            <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">{formConfig.title}</h1>
+            <p className="mt-1 text-sm leading-relaxed text-[#3d5249]">{formConfig.description}</p>
           </div>
         </div>
 
-        <div className="rounded-3xl border border-border bg-card p-8 shadow-sm">
+        <div className="rounded-[2rem] border border-[#0a3d2e]/12 bg-white p-8 shadow-[0_24px_80px_rgba(5,32,28,0.08)] sm:p-10">
           <div className="flex flex-wrap gap-2">
-            <Badge variant="secondary">{taskConfig.label}</Badge>
-            <Badge variant="outline">Local-only</Badge>
+            <Badge className="border border-[#008c72]/20 bg-[#008c72]/10 text-[#008c72]">{taskConfig.label}</Badge>
+            <Badge variant="outline" className="rounded-full border-[#0a3d2e]/15">
+              Local-only
+            </Badge>
           </div>
 
           <div className="mt-6 grid gap-6">
@@ -304,13 +306,13 @@ export default function CreateTaskPage() {
                     placeholder={field.placeholder}
                     value={values[field.key] || ""}
                     onChange={(event) => updateValue(field.key, event.target.value)}
-                    className="border-2 border-slate-200 bg-white focus-visible:ring-2 focus-visible:ring-primary/30"
+                    className="border-2 border-[#0a3d2e]/12 bg-white focus-visible:ring-2 focus-visible:ring-[#008c72]/30"
                   />
                 ) : field.type === "category" ? (
                   <select
                     value={values[field.key] || ""}
                     onChange={(event) => updateValue(field.key, event.target.value)}
-                    className="h-11 rounded-lg border-2 border-slate-200 bg-white px-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+                    className="h-11 rounded-[12px] border-2 border-[#0a3d2e]/12 bg-white px-3 text-sm text-[#05201c] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#008c72]/30"
                   >
                     <option value="">Select category</option>
                     {CATEGORY_OPTIONS.map((option) => (
@@ -355,7 +357,7 @@ export default function CreateTaskPage() {
                       onChange={(event) => updateValue(field.key, event.target.value)}
                     />
                     {uploadingPdf ? (
-                      <p className="text-xs text-muted-foreground">Uploading PDF…</p>
+                      <p className="text-xs text-[#3d5249]">Uploading PDF…</p>
                     ) : null}
                   </div>
                 ) : (
@@ -368,7 +370,7 @@ export default function CreateTaskPage() {
                     }
                     value={values[field.key] || ""}
                     onChange={(event) => updateValue(field.key, event.target.value)}
-                    className="h-11 border-2 border-slate-200 bg-white focus-visible:ring-2 focus-visible:ring-primary/30"
+                    className="h-11 border-2 border-[#0a3d2e]/12 bg-white focus-visible:ring-2 focus-visible:ring-[#008c72]/30"
                   />
                 )}
               </div>
@@ -376,11 +378,11 @@ export default function CreateTaskPage() {
           </div>
 
           <div className="mt-8 flex flex-wrap gap-3">
-            <Button onClick={handleSubmit}>
+            <Button className="rounded-full bg-[#008c72] text-white hover:bg-[#007764]" onClick={handleSubmit}>
               <Save className="mr-2 h-4 w-4" />
               Save locally
             </Button>
-            <Button variant="ghost" asChild>
+            <Button variant="outline" className="rounded-full border-[#0a3d2e]/20" asChild>
               <Link href={taskConfig.route}>
                 View {taskConfig.label}
                 <Plus className="ml-2 h-4 w-4" />
@@ -389,6 +391,7 @@ export default function CreateTaskPage() {
           </div>
         </div>
       </main>
+      <Footer />
     </div>
   );
 }
