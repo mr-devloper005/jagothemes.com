@@ -26,6 +26,7 @@ const footerLinks = {
   })),
   company: [
     { name: 'About', href: '/about' },
+    { name: 'Contact', href: '/contact' },
     { name: 'Team', href: '/team' },
     { name: 'Careers', href: '/careers' },
     { name: 'Blog', href: '/blog' },
@@ -62,18 +63,34 @@ export function Footer() {
 
   if (recipe.footer === 'minimal-footer') {
     return (
-      <footer className="border-t border-[#d7deca] bg-[#f4f6ef] text-[#1f2617]">
-        <div className="mx-auto flex max-w-7xl flex-col gap-5 px-4 py-8 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">
+      <footer className="border-t border-[#0a3d2e]/30 bg-[#05201c] text-white">
+        <div className="mx-auto flex max-w-7xl flex-col gap-6 px-4 py-12 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">
           <div>
-            <p className="text-lg font-semibold">{SITE_CONFIG.name}</p>
-            <p className="mt-1 text-sm text-[#56604b]">{SITE_CONFIG.description}</p>
+            <p className="font-sans text-lg font-bold tracking-tight">{`${SITE_CONFIG.name.toLowerCase()}.`}</p>
+            <p className="mt-2 max-w-md text-sm leading-relaxed text-white/75">{SITE_CONFIG.description}</p>
           </div>
           <div className="flex flex-wrap gap-3">
             {enabledTasks.slice(0, 5).map((task) => (
-              <Link key={task.key} href={task.route} className="rounded-lg border border-[#d7deca] bg-white px-3 py-2 text-sm font-medium text-[#1f2617] hover:bg-[#ebefdf]">
+              <Link
+                key={task.key}
+                href={task.route}
+                className="rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm font-semibold text-white/95 transition hover:bg-white/15"
+              >
                 {task.label}
               </Link>
             ))}
+            <Link
+              href="/about"
+              className="rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm font-semibold text-white/95 transition hover:bg-white/15"
+            >
+              About
+            </Link>
+            <Link
+              href="/contact"
+              className="rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm font-semibold text-white/95 transition hover:bg-white/15"
+            >
+              Contact
+            </Link>
           </div>
         </div>
       </footer>
@@ -87,8 +104,14 @@ export function Footer() {
           <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr_1fr]">
             <div className="rounded-[2rem] border border-white/10 bg-white/5 p-7">
               <div className="flex items-center gap-3">
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/12 bg-white/8 p-1.5">
-                  <img src="/favicon.png?v=20260401" alt={`${SITE_CONFIG.name} logo`} width="48" height="48" className="h-full w-full object-contain" />
+                <div className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-2xl border border-white/12 bg-white/8 p-1.5">
+                  <img
+                    src="/favicon.png?v=20260401"
+                    alt={`${SITE_CONFIG.name} logo`}
+                    width="48"
+                    height="48"
+                    className="h-full w-full origin-center scale-[1.65] object-contain will-change-transform"
+                  />
                 </div>
                 <div>
                   <p className="text-lg font-semibold">{SITE_CONFIG.name}</p>
@@ -103,13 +126,28 @@ export function Footer() {
                 </Link>
               ) : null}
             </div>
-            <div className="grid gap-6 sm:grid-cols-2 lg:col-span-2 lg:grid-cols-3">
+            <div className="grid gap-6 sm:grid-cols-2 lg:col-span-2 lg:grid-cols-4">
               <div>
                 <h3 className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-400">Surfaces</h3>
                 <ul className="mt-4 space-y-3 text-sm text-slate-200">
                   {footerLinks.platform.map((item: any) => (
                     <li key={item.name}><Link href={item.href} className="flex items-center gap-2 hover:text-white">{item.icon ? <item.icon className="h-4 w-4" /> : null}{item.name}</Link></li>
                   ))}
+                </ul>
+              </div>
+              <div>
+                <h3 className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-400">Company</h3>
+                <ul className="mt-4 space-y-3 text-sm text-slate-200">
+                  <li>
+                    <Link href="/about" className="hover:text-white">
+                      About
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/contact" className="hover:text-white">
+                      Contact
+                    </Link>
+                  </li>
                 </ul>
               </div>
               <div>
@@ -179,8 +217,14 @@ export function Footer() {
         <div className="grid gap-10 md:grid-cols-[1.2fr_0.8fr_0.8fr_0.8fr_0.8fr]">
           <div>
             <Link href="/" className="flex items-center gap-3">
-              <div className="h-11 w-11 overflow-hidden rounded-2xl border border-slate-200 bg-white p-1 shadow-sm">
-                <img src="/favicon.png?v=20260401" alt={`${SITE_CONFIG.name} logo`} width="44" height="44" className="h-full w-full object-contain" />
+              <div className="flex h-11 w-11 items-center justify-center overflow-hidden rounded-2xl border border-slate-200 bg-white p-1 shadow-sm">
+                <img
+                  src="/favicon.png?v=20260401"
+                  alt={`${SITE_CONFIG.name} logo`}
+                  width="44"
+                  height="44"
+                  className="h-full w-full origin-center scale-[1.65] object-contain will-change-transform"
+                />
               </div>
               <div>
                 <span className="block text-lg font-semibold">{SITE_CONFIG.name}</span>

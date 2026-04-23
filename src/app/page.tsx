@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { ArrowRight, Bookmark, Building2, Compass, FileText, Globe2, Image as ImageIcon, LayoutGrid, MapPin, ShieldCheck, Tag, User } from 'lucide-react'
+import { ArrowRight, Bookmark, Bike, Car, ChevronDown, FileText, Home, Image as ImageIcon, MapPin, Play, Search, Smartphone, Sparkles, Star, Tag, User } from 'lucide-react'
 import { ContentImage } from '@/components/shared/content-image'
 import { NavbarShell } from '@/components/shared/navbar-shell'
 import { Footer } from '@/components/shared/footer'
@@ -11,7 +11,7 @@ import { buildPageMetadata } from '@/lib/seo'
 import { fetchTaskPosts } from '@/lib/task-data'
 import { siteContent } from '@/config/site.content'
 import { getFactoryState } from '@/design/factory/get-factory-state'
-import { getProductKind, type ProductKind } from '@/design/factory/get-product-kind'
+import { getProductKind } from '@/design/factory/get-product-kind'
 import type { SitePost } from '@/lib/site-connector'
 import { HOME_PAGE_OVERRIDE_ENABLED, HomePageOverride } from '@/overrides/home-page'
 
@@ -31,15 +31,6 @@ export async function generateMetadata(): Promise<Metadata> {
 
 type EnabledTask = (typeof SITE_CONFIG.tasks)[number]
 type TaskFeedItem = { task: EnabledTask; posts: SitePost[] }
-
-const taskIcons: Record<TaskKey, any> = {
-  article: FileText,
-  listing: Building2,
-  sbm: Bookmark,
-  classified: Tag,
-  image: ImageIcon,
-  profile: User,
-}
 
 function resolveTaskKey(value: unknown, fallback: TaskKey): TaskKey {
   if (value === 'listing' || value === 'classified' || value === 'article' || value === 'image' || value === 'profile' || value === 'sbm') return value
@@ -72,32 +63,12 @@ function getPostMeta(post?: SitePost | null) {
   }
 }
 
-function getDirectoryTone(brandPack: string) {
-  if (brandPack === 'market-utility') {
-    return {
-      shell: 'bg-[#f5f7f1] text-[#1f2617]',
-      hero: 'bg-[linear-gradient(180deg,#eef4e4_0%,#f8faf4_100%)]',
-      panel: 'border border-[#d5ddc8] bg-white shadow-[0_24px_64px_rgba(64,76,34,0.08)]',
-      soft: 'border border-[#d5ddc8] bg-[#eff3e7]',
-      muted: 'text-[#5b664c]',
-      title: 'text-[#1f2617]',
-      badge: 'bg-[#1f2617] text-[#edf5dc]',
-      action: 'bg-[#1f2617] text-[#edf5dc] hover:bg-[#2f3a24]',
-      actionAlt: 'border border-[#d5ddc8] bg-white text-[#1f2617] hover:bg-[#eef3e7]',
-    }
-  }
-  return {
-    shell: 'bg-[#f8fbff] text-slate-950',
-    hero: 'bg-[linear-gradient(180deg,#eef6ff_0%,#ffffff_100%)]',
-    panel: 'border border-slate-200 bg-white shadow-[0_24px_64px_rgba(15,23,42,0.08)]',
-    soft: 'border border-slate-200 bg-slate-50',
-    muted: 'text-slate-600',
-    title: 'text-slate-950',
-    badge: 'bg-slate-950 text-white',
-    action: 'bg-slate-950 text-white hover:bg-slate-800',
-    actionAlt: 'border border-slate-200 bg-white text-slate-950 hover:bg-slate-100',
-  }
-}
+const quickClassifiedCategories = [
+  { name: 'Vehicles', slug: 'vehicles' as const, icon: Car },
+  { name: 'Mobiles', slug: 'mobiles' as const, icon: Smartphone },
+  { name: 'Houses', slug: 'houses' as const, icon: Home },
+  { name: 'Bikes', slug: 'bikes' as const, icon: Bike },
+] as const
 
 function getEditorialTone() {
   return {
@@ -146,124 +117,207 @@ function DirectoryHome({ primaryTask, enabledTasks, listingPosts, classifiedPost
   profilePosts: SitePost[]
   brandPack: string
 }) {
-  const tone = getDirectoryTone(brandPack)
-  const featuredListings = (listingPosts.length ? listingPosts : classifiedPosts).slice(0, 3)
-  const featuredTaskKey: TaskKey = listingPosts.length ? 'listing' : 'classified'
-  const quickRoutes = enabledTasks.slice(0, 4)
+  void brandPack
+  void enabledTasks
+  void profilePosts
+  const feed = classifiedPosts.length ? classifiedPosts : listingPosts
+  const featuredTaskKey: TaskKey = classifiedPosts.length ? 'classified' : 'listing'
+  const featuredRow = feed.slice(0, 4)
+  const popularFromPosts = feed.slice(0, 4)
+  const popularFallback = quickClassifiedCategories.map((c, i) => ({
+    title: c.name,
+    slug: c.slug,
+    image: `https://picsum.photos/seed/cat-${c.slug}/640/800`,
+    count: 24 + i * 18,
+  }))
+  const popular =
+    popularFromPosts.length >= 4
+      ? popularFromPosts.map((post, i) => {
+          const meta = getPostMeta(post)
+          return {
+            title: meta.category || post.title,
+            slug: (meta.category || 'vehicles').toLowerCase().replace(/\s+/g, '-'),
+            image: getPostImage(post),
+            count: 40 + i * 11,
+          }
+        })
+      : popularFallback
 
   return (
-    <main>
-      <section className={tone.hero}>
-        <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8 lg:py-18">
-          <div className="grid gap-8 lg:grid-cols-[1.08fr_0.92fr] lg:items-center">
-            <div>
-              <span className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] ${tone.badge}`}>
-                <Compass className="h-3.5 w-3.5" />
-                Local discovery product
-              </span>
-              <h1 className={`mt-6 max-w-4xl text-5xl font-semibold tracking-[-0.06em] sm:text-6xl ${tone.title}`}>
-                Search businesses, compare options, and act fast without digging through generic feeds.
-              </h1>
-              <p className={`mt-6 max-w-2xl text-base leading-8 ${tone.muted}`}>{SITE_CONFIG.description}</p>
-
-              <div className={`mt-8 grid gap-3 rounded-[2rem] p-4 ${tone.panel} md:grid-cols-[1.25fr_0.8fr_auto]`}>
-                <div className="rounded-full bg-black/5 px-4 py-3 text-sm">What do you need today?</div>
-                <div className="rounded-full bg-black/5 px-4 py-3 text-sm">Choose area or city</div>
-                <Link href={primaryTask?.route || '/listings'} className={`inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold ${tone.action}`}>
-                  Browse now
-                  <ArrowRight className="h-4 w-4" />
-                </Link>
-              </div>
-
-              <div className="mt-8 grid gap-3 sm:grid-cols-3">
-                {[
-                  ['Verified businesses', `${featuredListings.length || 3}+ highlighted surfaces`],
-                  ['Fast scan rhythm', 'More utility, less filler'],
-                  ['Action first', 'Call, visit, shortlist, compare'],
-                ].map(([label, value]) => (
-                  <div key={label} className={`rounded-[1.4rem] p-4 ${tone.soft}`}>
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.22em] opacity-70">{label}</p>
-                    <p className="mt-2 text-lg font-semibold">{value}</p>
-                  </div>
-                ))}
-              </div>
+    <main className="text-[#05201c]">
+      <section className="relative overflow-hidden bg-[#05201c] text-white">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-[0.14]"
+          style={{
+            backgroundImage: 'url(https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=1600&q=60&auto=format&fit=crop)',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
+        />
+        <div className="relative mx-auto max-w-7xl px-4 pb-20 pt-10 sm:px-6 lg:px-8 lg:pb-24 lg:pt-14">
+          <div className="mx-auto max-w-3xl text-center">
+            <h1 className="font-sans text-4xl font-bold leading-[1.1] tracking-tight sm:text-5xl lg:text-[3.25rem]">
+              Sell your home&apos;s extra products
+            </h1>
+            <p className="mx-auto mt-5 max-w-2xl text-sm leading-relaxed text-white/85 sm:text-base">
+              Turn unused items into cash. Post in minutes, reach serious buyers nearby, and keep every conversation in one calm classifieds flow.
+            </p>
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+              <Link
+                href="/create/classified"
+                className="inline-flex items-center gap-2 rounded-full bg-[#008c72] px-7 py-3.5 text-sm font-semibold text-white shadow-[0_12px_40px_rgba(0,140,114,0.35)] transition hover:bg-[#007764]"
+              >
+                <Sparkles className="h-4 w-4" />
+                Post Ad Now
+              </Link>
             </div>
+            <button
+              type="button"
+              className="mx-auto mt-6 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm text-white/90 backdrop-blur-sm"
+            >
+              <MapPin className="h-4 w-4 text-[#7fe8d4]" />
+              Bangladesh
+              <ChevronDown className="h-4 w-4 opacity-70" />
+            </button>
+            <form action="/search" className="mx-auto mt-8 flex max-w-xl items-center gap-2 rounded-full bg-white p-2 pl-5 shadow-[0_20px_60px_rgba(0,0,0,0.2)]">
+              <Search className="h-5 w-5 shrink-0 text-[#05201c]/40" />
+              <input name="q" className="min-w-0 flex-1 bg-transparent text-sm text-[#05201c] outline-none placeholder:text-[#05201c]/45" placeholder="Search to buy" />
+              <button type="submit" className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#008c72] text-white transition hover:bg-[#007764]" aria-label="Search">
+                <Search className="h-5 w-5" />
+              </button>
+            </form>
+          </div>
 
-            <div className="grid gap-4">
-              <div className={`rounded-[2rem] p-6 ${tone.panel}`}>
-                <div className="flex items-center justify-between gap-4">
-                  <div>
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.22em] opacity-70">Primary lane</p>
-                    <h2 className="mt-2 text-3xl font-semibold">{primaryTask?.label || 'Listings'}</h2>
-                  </div>
-                  <ShieldCheck className="h-6 w-6" />
-                </div>
-                <p className={`mt-4 text-sm leading-7 ${tone.muted}`}>{primaryTask?.description || 'Structured discovery for services, offers, and business surfaces.'}</p>
-              </div>
-
-              <div className="grid gap-4 sm:grid-cols-2">
-                {quickRoutes.map((task) => {
-                  const Icon = taskIcons[task.key as TaskKey] || LayoutGrid
-                  return (
-                    <Link key={task.key} href={task.route} className={`rounded-[1.6rem] p-5 ${tone.soft}`}>
-                      <Icon className="h-5 w-5" />
-                      <h3 className="mt-4 text-lg font-semibold">{task.label}</h3>
-                      <p className={`mt-2 text-sm leading-7 ${tone.muted}`}>{task.description}</p>
-                    </Link>
-                  )
-                })}
-              </div>
-            </div>
+          <div className="mx-auto mt-14 flex max-w-3xl flex-wrap justify-center gap-6 sm:gap-10">
+            {quickClassifiedCategories.map((cat) => (
+              <Link key={cat.slug} href={`/classifieds?category=${cat.slug}`} className="flex flex-col items-center gap-2 text-white/90 transition hover:text-white">
+                <span className="flex h-14 w-14 items-center justify-center rounded-2xl border border-white/15 bg-white/10 backdrop-blur-sm">
+                  <cat.icon className="h-6 w-6" strokeWidth={1.5} />
+                </span>
+                <span className="text-xs font-medium">{cat.name}</span>
+              </Link>
+            ))}
           </div>
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
-        <div className="flex items-end justify-between gap-4 border-b border-border pb-6">
+      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-muted-foreground">Featured businesses</p>
-            <h2 className="mt-3 text-3xl font-semibold tracking-[-0.04em]">Strong listings with clearer trust cues.</h2>
+            <h2 className="font-sans text-2xl font-bold tracking-tight sm:text-3xl">
+              Products listed in <span className="text-[#008c72]">Popular Categories</span>
+            </h2>
+            <p className="mt-2 max-w-xl text-sm text-[#3d5249]">Browse vehicles, homes, phones, and bikes from trusted local sellers.</p>
           </div>
-          <Link href="/listings" className="text-sm font-semibold text-primary hover:opacity-80">Open listings</Link>
+          <Link
+            href={primaryTask?.route || '/classifieds'}
+            className="inline-flex w-fit items-center justify-center rounded-full bg-[#008c72] px-6 py-2.5 text-sm font-semibold text-white transition hover:bg-[#007764]"
+          >
+            View more
+          </Link>
         </div>
-        <div className="mt-8 grid gap-6 lg:grid-cols-3">
-          {featuredListings.map((post) => (
-            <TaskPostCard key={post.id} post={post} href={getTaskHref(featuredTaskKey, post.slug)} taskKey={featuredTaskKey} />
+        <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {popular.slice(0, 4).map((item, idx) => (
+            <Link
+              key={`${item.title}-${idx}`}
+              href={`/classifieds?category=${item.slug}`}
+              className="group relative aspect-[3/4] overflow-hidden rounded-[15px] shadow-[0_18px_50px_rgba(5,32,28,0.12)]"
+            >
+              <ContentImage src={item.image} alt={item.title} fill className="object-cover transition duration-500 group-hover:scale-105" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent" />
+              <div className="absolute inset-x-0 bottom-0 p-5">
+                <p className="text-lg font-bold text-white">{item.title}</p>
+                <p className="mt-1 text-sm text-white/80">{item.count} ads</p>
+              </div>
+            </Link>
           ))}
         </div>
       </section>
 
-      <section className={`${tone.shell}`}>
-        <div className="mx-auto grid max-w-7xl gap-8 px-4 py-14 sm:px-6 lg:grid-cols-[0.92fr_1.08fr] lg:px-8">
-          <div className={`rounded-[2rem] p-7 ${tone.panel}`}>
-            <p className="text-xs font-semibold uppercase tracking-[0.24em] opacity-70">What makes this different</p>
-            <h2 className="mt-3 text-3xl font-semibold tracking-[-0.04em]">Built like a business directory, not a recolored content site.</h2>
-            <ul className={`mt-6 space-y-3 text-sm leading-7 ${tone.muted}`}>
-              <li>Search-first hero instead of a magazine headline.</li>
-              <li>Action-oriented listing cards with trust metadata.</li>
-              <li>Support lanes for offers, businesses, and profiles.</li>
-            </ul>
-          </div>
-          <div className="grid gap-4 md:grid-cols-2">
-            {(profilePosts.length ? profilePosts : classifiedPosts).slice(0, 4).map((post) => {
-              const meta = getPostMeta(post)
-              const taskKey = resolveTaskKey(post.task, profilePosts.length ? 'profile' : 'classified')
-              return (
-                <Link key={post.id} href={getTaskHref(taskKey, post.slug)} className={`overflow-hidden rounded-[1.8rem] ${tone.panel}`}>
-                  <div className="relative h-44 overflow-hidden">
-                    <ContentImage src={getPostImage(post)} alt={post.title} fill className="object-cover" />
-                  </div>
-                  <div className="p-5">
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.24em] opacity-70">{meta.category || post.task || 'Profile'}</p>
-                    <h3 className="mt-2 text-xl font-semibold">{post.title}</h3>
-                    <p className={`mt-2 text-sm leading-7 ${tone.muted}`}>{post.summary || 'Quick access to local information and related surfaces.'}</p>
-                  </div>
-                </Link>
-              )
-            })}
+      <section className="border-y border-[#0a3d2e]/10 bg-[#f0f7f4] py-16 lg:py-20">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <h2 className="text-center font-sans text-2xl font-bold tracking-tight sm:text-3xl">Buy and sell is so easy</h2>
+          <div className="mt-12 grid gap-8 md:grid-cols-3">
+            {[
+              { step: '1', title: 'Post your ad', body: 'Add photos, price, and location in a guided flow built for classifieds.' },
+              { step: '2', title: 'Get messages', body: 'Buyers reach you through the site so you stay in control of the conversation.' },
+              { step: '3', title: 'Close the deal', body: 'Meet locally, confirm payment, and mark your item sold when you are done.' },
+            ].map((s) => (
+              <div key={s.step} className="rounded-[15px] border border-[#0a3d2e]/10 bg-white p-8 text-center shadow-sm">
+                <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[#05201c] text-lg font-bold text-[#7fe8d4]">{s.step}</div>
+                <h3 className="mt-5 font-sans text-lg font-semibold">{s.title}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-[#3d5249]">{s.body}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
+
+      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
+        <h2 className="text-center font-sans text-2xl font-bold tracking-tight">What sellers say</h2>
+        <div className="mt-10 grid gap-6 md:grid-cols-3">
+          {[
+            { quote: 'Listed my bike on a lunch break and had real offers the same evening.', name: 'Mahdi Hasan', role: 'Designer' },
+            { quote: 'Clean layout, no clutter — buyers actually read the full description.', name: 'Ayesha Rahman', role: 'Teacher' },
+            { quote: 'Finally a local marketplace that feels serious, not like a random forum.', name: 'Karim Chowdhury', role: 'Engineer' },
+          ].map((t) => (
+            <div key={t.name} className="rounded-[15px] border border-[#0a3d2e]/10 bg-white p-6 shadow-sm">
+              <div className="flex gap-0.5 text-[#008c72]">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <Star key={i} className="h-4 w-4 fill-current" />
+                ))}
+              </div>
+              <p className="mt-4 text-sm leading-relaxed text-[#1a2e28]">&ldquo;{t.quote}&rdquo;</p>
+              <p className="mt-5 text-sm font-semibold">{t.name}</p>
+              <p className="text-xs text-[#3d5249]">{t.role}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-7xl px-4 pb-20 sm:px-6 lg:px-8">
+        <div className="overflow-hidden rounded-[24px] bg-[#05201c] px-6 py-12 text-white sm:px-10 lg:grid lg:grid-cols-[1fr_1.1fr] lg:items-center lg:gap-10 lg:py-14">
+          <div className="relative hidden min-h-[200px] overflow-hidden rounded-2xl lg:block">
+            <ContentImage src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&q=70&auto=format&fit=crop" alt="" fill className="object-cover" />
+          </div>
+          <div>
+            <h2 className="font-sans text-2xl font-bold tracking-tight sm:text-3xl">Post your ad now</h2>
+            <p className="mt-3 max-w-md text-sm leading-relaxed text-white/80">Reach buyers across Bangladesh with photos, maps, and clear pricing — without noisy feeds or unrelated content types.</p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Link href="/create/classified" className="inline-flex items-center gap-2 rounded-full bg-[#008c72] px-6 py-3 text-sm font-semibold text-white hover:bg-[#007764]">
+                <Sparkles className="h-4 w-4" />
+                Post Ad
+              </Link>
+              <button
+                type="button"
+                className="inline-flex items-center gap-2 rounded-full border border-white/35 bg-transparent px-6 py-3 text-sm font-semibold text-white hover:bg-white/10"
+              >
+                <Play className="h-4 w-4 fill-current" />
+                Play tutorial
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {featuredRow.length ? (
+        <section className="mx-auto max-w-7xl px-4 pb-24 sm:px-6 lg:px-8">
+          <div className="mb-8 flex items-end justify-between gap-4">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#008c72]">Fresh picks</p>
+              <h2 className="mt-2 font-sans text-2xl font-bold tracking-tight">Featured classifieds</h2>
+            </div>
+            <Link href="/classifieds" className="text-sm font-semibold text-[#008c72] hover:underline">
+              See all ads
+            </Link>
+          </div>
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {featuredRow.map((post) => (
+              <TaskPostCard key={post.id} post={post} href={getTaskHref(featuredTaskKey, post.slug)} taskKey={featuredTaskKey} />
+            ))}
+          </div>
+        </section>
+      ) : null}
     </main>
   )
 }

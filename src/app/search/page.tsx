@@ -72,43 +72,51 @@ export default async function SearchPage({
 
   return (
     <PageShell
-      title="Search"
+      title="Search ads"
       description={
         query
-          ? `Results for "${query}"`
-          : "Browse the latest posts across every task."
+          ? `Showing matches for “${query}” across live listings and saved catalog content.`
+          : "Search titles, descriptions, and tags — or scroll the freshest picks below."
       }
       actions={
-        <form action="/search" className="flex w-full gap-2 sm:w-auto">
+        <form action="/search" className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:items-center">
           <input type="hidden" name="master" value="1" />
           {category ? <input type="hidden" name="category" value={category} /> : null}
           {task ? <input type="hidden" name="task" value={task} /> : null}
           <div className="relative w-full sm:w-80">
-            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#05201c]/40" />
             <Input
               name="q"
               defaultValue={query}
-              placeholder="Search across tasks..."
-              className="h-11 pl-9"
+              placeholder="Search vehicles, homes, phones…"
+              className="h-11 border-[#0a3d2e]/15 bg-white pl-9 text-[#05201c] placeholder:text-[#05201c]/45"
             />
           </div>
-          <Button type="submit" className="h-11">
+          <Button type="submit" className="h-11 bg-[#008c72] text-white hover:bg-[#007764]">
             Search
           </Button>
         </form>
       }
     >
       {results.length ? (
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {results.map((post) => {
-            const task = getPostTaskKey(post);
-            const href = task ? buildPostUrl(task, post.slug) : `/posts/${post.slug}`;
-            return <TaskPostCard key={post.id} post={post} href={href} />;
-          })}
+        <div>
+          <p className="mb-6 text-sm font-medium text-[#3d5249]">
+            {results.length} result{results.length === 1 ? '' : 's'} {query ? `for your query` : '— popular picks'}
+          </p>
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {results.map((post) => {
+              const task = getPostTaskKey(post);
+              const href = task ? buildPostUrl(task, post.slug) : `/posts/${post.slug}`;
+              return <TaskPostCard key={post.id} post={post} href={href} />;
+            })}
+          </div>
         </div>
       ) : (
-        <div className="rounded-2xl border border-dashed border-border p-10 text-center text-muted-foreground">
-          No matching posts yet.
+        <div className="rounded-[15px] border border-dashed border-[#0a3d2e]/20 bg-[#f7fbfa] px-6 py-14 text-center">
+          <p className="text-base font-semibold text-[#05201c]">No matches yet</p>
+          <p className="mx-auto mt-2 max-w-md text-sm text-[#3d5249]">
+            Try a shorter keyword, check spelling, or browse categories from the home page — new ads land every day.
+          </p>
         </div>
       )}
     </PageShell>
