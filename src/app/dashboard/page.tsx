@@ -36,6 +36,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { NavbarShell } from "@/components/shared/navbar-shell"
+import { Footer } from "@/components/shared/footer"
 import { useAuth } from "@/lib/auth-context"
 import { useToast } from "@/components/ui/use-toast"
 import { loadFromStorage, storageKeys } from "@/lib/local-storage"
@@ -256,16 +257,16 @@ export default function DashboardPage() {
   )
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-[linear-gradient(180deg,#f0f7f4_0%,#ffffff_52%,#f7fbfa_100%)] text-[#05201c]">
       <NavbarShell />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+        <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-foreground">Dashboard</h1>
-            <p className="text-muted-foreground mt-1">
-              Welcome back, {user?.name || "User"}! Here's what's happening.
+            <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">Your dashboard</h1>
+            <p className="mt-2 text-sm text-[#3d5249] sm:text-base">
+              Welcome back, {user?.name || "friend"}. Track views on your ads, listings, and articles — then jump back to posting.
             </p>
           </div>
           <div className="flex gap-3">
@@ -311,18 +312,18 @@ export default function DashboardPage() {
         </div>
 
         {/* Stats Cards */}
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 mb-8">
+        <div className="mb-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {statsData.map((stat, i) => (
             <motion.div
               key={stat.title}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.1 }}
-              className="bg-card rounded-xl border border-border p-6"
+              className="rounded-[15px] border border-[#0a3d2e]/10 bg-white p-6 shadow-[0_12px_40px_rgba(5,32,28,0.06)]"
             >
               <div className="flex items-center justify-between mb-4">
-                <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                  <stat.icon className="h-5 w-5 text-primary" />
+                <div className="flex h-10 w-10 items-center justify-center rounded-[12px] bg-[#008c72]/12">
+                  <stat.icon className="h-5 w-5 text-[#008c72]" />
                 </div>
                 <Badge
                   variant="secondary"
@@ -340,8 +341,8 @@ export default function DashboardPage() {
                   {stat.change}
                 </Badge>
               </div>
-              <p className="text-2xl font-bold text-foreground">{stat.value}</p>
-              <p className="text-sm text-muted-foreground">{stat.title}</p>
+              <p className="text-2xl font-bold text-[#05201c]">{stat.value}</p>
+              <p className="text-sm text-[#3d5249]">{stat.title}</p>
             </motion.div>
           ))}
         </div>
@@ -355,15 +356,15 @@ export default function DashboardPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="bg-card rounded-xl border border-border p-6"
+              className="rounded-[15px] border border-[#0a3d2e]/10 bg-white p-6 shadow-[0_12px_40px_rgba(5,32,28,0.06)]"
             >
               <div className="flex items-center justify-between mb-6">
                 <div>
-                  <h2 className="text-lg font-semibold text-foreground">
-                    Views Overview
+                  <h2 className="text-lg font-bold text-[#05201c]">
+                    Views overview
                   </h2>
-                  <p className="text-sm text-muted-foreground">
-                    Your content performance this week
+                  <p className="text-sm text-[#3d5249]">
+                    Estimated split across the last seven days for everything you publish.
                   </p>
                 </div>
                 <Button
@@ -433,12 +434,12 @@ export default function DashboardPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="bg-card rounded-xl border border-border"
+              className="rounded-[15px] border border-[#0a3d2e]/10 bg-white shadow-[0_12px_40px_rgba(5,32,28,0.06)]"
             >
               <Tabs defaultValue="articles" className="w-full">
                 <div className="px-6 pt-6">
-                  <h2 className="text-lg font-semibold text-foreground mb-4">
-                    My Content
+                  <h2 className="mb-4 text-lg font-bold text-[#05201c]">
+                    Your content
                   </h2>
                   <TabsList className="w-full justify-start bg-muted/50">
                     <TabsTrigger value="articles">Articles</TabsTrigger>
@@ -452,13 +453,13 @@ export default function DashboardPage() {
                     {myContent.articles.map((article) => (
                       <div
                         key={article.id}
-                        className="flex items-center justify-between p-4 rounded-lg bg-muted/50 hover:bg-muted transition-colors"
+                        className="flex items-center justify-between rounded-[12px] border border-transparent bg-[#f7fbfa] p-4 transition-colors hover:border-[#0a3d2e]/10 hover:bg-[#ecf5f1]"
                       >
                         <div className="flex-1 min-w-0">
-                          <h3 className="font-medium text-foreground truncate">
+                          <h3 className="font-medium text-[#05201c] truncate">
                             {article.title}
                           </h3>
-                          <div className="flex items-center gap-4 mt-1 text-sm text-muted-foreground">
+                          <div className="flex items-center gap-4 mt-1 text-sm text-[#3d5249]">
                             <span>{article.date}</span>
                             <span>{article.views} views</span>
                             <span>{article.likes} likes</span>
@@ -518,13 +519,13 @@ export default function DashboardPage() {
                     {myContent.listings.map((listing) => (
                       <div
                         key={listing.id}
-                        className="flex items-center justify-between p-4 rounded-lg bg-muted/50 hover:bg-muted transition-colors"
+                        className="flex items-center justify-between rounded-[12px] border border-transparent bg-[#f7fbfa] p-4 transition-colors hover:border-[#0a3d2e]/10 hover:bg-[#ecf5f1]"
                       >
                         <div className="flex-1 min-w-0">
-                          <h3 className="font-medium text-foreground truncate">
+                          <h3 className="font-medium text-[#05201c] truncate">
                             {listing.title}
                           </h3>
-                          <div className="flex items-center gap-4 mt-1 text-sm text-muted-foreground">
+                          <div className="flex items-center gap-4 mt-1 text-sm text-[#3d5249]">
                             <span>{listing.date}</span>
                             <span>{listing.views} views</span>
                             <span>{listing.inquiries} inquiries</span>
@@ -584,14 +585,14 @@ export default function DashboardPage() {
                     {myContent.ads.map((ad) => (
                       <div
                         key={ad.id}
-                        className="flex items-center justify-between p-4 rounded-lg bg-muted/50 hover:bg-muted transition-colors"
+                        className="flex items-center justify-between rounded-[12px] border border-transparent bg-[#f7fbfa] p-4 transition-colors hover:border-[#0a3d2e]/10 hover:bg-[#ecf5f1]"
                       >
                         <div className="flex-1 min-w-0">
-                          <h3 className="font-medium text-foreground truncate">
+                          <h3 className="font-medium text-[#05201c] truncate">
                             {ad.title}
                           </h3>
-                          <div className="flex items-center gap-4 mt-1 text-sm text-muted-foreground">
-                            <span className="font-medium text-foreground">
+                          <div className="flex items-center gap-4 mt-1 text-sm text-[#3d5249]">
+                            <span className="font-medium text-[#05201c]">
                               {ad.price}
                             </span>
                             <span>{ad.views} views</span>
@@ -659,10 +660,10 @@ export default function DashboardPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
-              className="bg-card rounded-xl border border-border p-6"
+              className="rounded-[15px] border border-[#0a3d2e]/10 bg-white p-6 shadow-[0_12px_40px_rgba(5,32,28,0.06)]"
             >
-              <h2 className="text-lg font-semibold text-foreground mb-4">
-                Content Distribution
+              <h2 className="mb-4 text-lg font-bold text-[#05201c]">
+                Content mix
               </h2>
               <div className="h-48">
                 <ResponsiveContainer width="100%" height="100%">
@@ -698,11 +699,11 @@ export default function DashboardPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5 }}
-              className="bg-card rounded-xl border border-border p-6"
+              className="rounded-[15px] border border-[#0a3d2e]/10 bg-white p-6 shadow-[0_12px_40px_rgba(5,32,28,0.06)]"
             >
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-lg font-semibold text-foreground">
-                  Recent Activity
+                <h2 className="text-lg font-bold text-[#05201c]">
+                  Recent activity
                 </h2>
                 <Button variant="ghost" size="sm" asChild>
                   <Link href="/dashboard/notifications">View all</Link>
@@ -716,14 +717,14 @@ export default function DashboardPage() {
                       <AvatarFallback>{activity.user.charAt(0)}</AvatarFallback>
                     </Avatar>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm text-foreground">
+                      <p className="text-sm text-[#05201c]">
                         <span className="font-medium">{activity.user}</span>{" "}
                         {activity.action}
                         {activity.target && (
                           <span className="font-medium"> {activity.target}</span>
                         )}
                       </p>
-                      <p className="text-xs text-muted-foreground mt-0.5">
+                      <p className="text-xs text-[#3d5249] mt-0.5">
                         {activity.time}
                       </p>
                     </div>
@@ -737,10 +738,10 @@ export default function DashboardPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6 }}
-              className="bg-card rounded-xl border border-border p-6"
+              className="rounded-[15px] border border-[#0a3d2e]/10 bg-white p-6 shadow-[0_12px_40px_rgba(5,32,28,0.06)]"
             >
-              <h2 className="text-lg font-semibold text-foreground mb-4">
-                Quick Actions
+              <h2 className="mb-4 text-lg font-bold text-[#05201c]">
+                Quick actions
               </h2>
               <div className="space-y-2">
                 <Button variant="outline" className="w-full justify-start" asChild>
@@ -776,6 +777,7 @@ export default function DashboardPage() {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   )
 }

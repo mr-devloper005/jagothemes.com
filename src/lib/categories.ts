@@ -1,4 +1,13 @@
+/** Primary lanes shown in the classifieds UI (also valid API/mock categories). */
+export const CLASSIFIED_CATEGORY_OPTIONS: Array<{ name: string; slug: string }> = [
+  { name: "Vehicles", slug: "vehicles" },
+  { name: "Houses", slug: "houses" },
+  { name: "Mobiles", slug: "mobiles" },
+  { name: "Bikes", slug: "bikes" },
+];
+
 export const CATEGORY_OPTIONS: Array<{ name: string; slug: string }> = [
+  ...CLASSIFIED_CATEGORY_OPTIONS,
   { name: "Business", slug: "business" },
   { name: "Health", slug: "health" },
   { name: "Technology", slug: "technology" },

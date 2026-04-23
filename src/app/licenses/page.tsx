@@ -2,23 +2,25 @@
 import { Card, CardContent } from '@/components/ui/card'
 
 const licenses = [
-  { name: 'Next.js', description: 'MIT License' },
-  { name: 'React', description: 'MIT License' },
-  { name: 'Tailwind CSS', description: 'MIT License' },
+  { name: 'Next.js', description: 'MIT License — React framework and tooling we ship the web app with.' },
+  { name: 'React', description: 'MIT License — UI library powering components and client interactions.' },
+  { name: 'Tailwind CSS', description: 'MIT License — utility-first styling system for layout and theme tokens.' },
 ]
+
+const card = 'rounded-[15px] border border-[#0a3d2e]/10 bg-white shadow-[0_12px_40px_rgba(5,32,28,0.06)]'
 
 export default function LicensesPage() {
   return (
     <PageShell
-      title="Licenses"
-      description="Open source licenses and acknowledgements."
+      title="Open source licenses"
+      description="We build on a strong open-source stack. Here are the headline projects — full attributions ship with the application bundle."
     >
-      <Card className="border-border bg-card">
-        <CardContent className="p-6 space-y-3">
+      <Card className={card}>
+        <CardContent className="space-y-4 p-7 sm:p-8">
           {licenses.map((license) => (
-            <div key={license.name} className="rounded-lg border border-border bg-secondary/40 p-4">
-              <h3 className="text-sm font-semibold text-foreground">{license.name}</h3>
-              <p className="mt-1 text-sm text-muted-foreground">{license.description}</p>
+            <div key={license.name} className="rounded-[12px] border border-[#0a3d2e]/10 bg-[#f7fbfa] p-5">
+              <h3 className="text-sm font-bold text-[#05201c]">{license.name}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-[#3d5249]">{license.description}</p>
             </div>
           ))}
         </CardContent>

@@ -115,21 +115,30 @@ export function TaskPostCard({
   const isDirectorySurface = isDirectoryProduct && (variant === 'listing' || variant === 'classified' || variant === 'profile')
 
   if (isDirectorySurface) {
-    const cardTone = recipe.brandPack === 'market-utility'
+    const isClassifiedForest = recipe.homeLayout === 'classified-home' && variant === 'classified'
+    const cardTone = isClassifiedForest
       ? {
-          frame: 'rounded-[1.75rem] border border-[#d7deca] bg-white shadow-[0_18px_44px_rgba(64,76,34,0.08)] hover:-translate-y-1 hover:shadow-[0_22px_50px_rgba(64,76,34,0.14)]',
-          badge: 'bg-[#1f2617] text-[#edf5dc]',
-          muted: 'text-[#5b664c]',
-          title: 'text-[#1f2617]',
-          cta: 'text-[#1f2617]',
+          frame: 'rounded-[15px] border border-[#0a3d2e]/10 bg-white shadow-[0_16px_40px_rgba(5,32,28,0.08)] hover:-translate-y-1 hover:shadow-[0_22px_48px_rgba(5,32,28,0.12)]',
+          badge: 'bg-[#008c72] text-white',
+          muted: 'text-[#3d5249]',
+          title: 'text-[#05201c]',
+          cta: 'text-[#008c72]',
         }
-      : {
-          frame: 'rounded-[1.75rem] border border-slate-200 bg-white shadow-[0_18px_44px_rgba(15,23,42,0.08)] hover:-translate-y-1 hover:shadow-[0_22px_50px_rgba(15,23,42,0.14)]',
-          badge: 'bg-slate-950 text-white',
-          muted: 'text-slate-600',
-          title: 'text-slate-950',
-          cta: 'text-slate-950',
-        }
+      : recipe.brandPack === 'market-utility'
+        ? {
+            frame: 'rounded-[1.75rem] border border-[#d7deca] bg-white shadow-[0_18px_44px_rgba(64,76,34,0.08)] hover:-translate-y-1 hover:shadow-[0_22px_50px_rgba(64,76,34,0.14)]',
+            badge: 'bg-[#1f2617] text-[#edf5dc]',
+            muted: 'text-[#5b664c]',
+            title: 'text-[#1f2617]',
+            cta: 'text-[#1f2617]',
+          }
+        : {
+            frame: 'rounded-[1.75rem] border border-slate-200 bg-white shadow-[0_18px_44px_rgba(15,23,42,0.08)] hover:-translate-y-1 hover:shadow-[0_22px_50px_rgba(15,23,42,0.14)]',
+            badge: 'bg-slate-950 text-white',
+            muted: 'text-slate-600',
+            title: 'text-slate-950',
+            cta: 'text-slate-950',
+          }
 
     return (
       <Link href={href} className={`group flex h-full flex-col overflow-hidden transition duration-300 ${cardTone.frame}`}>
@@ -140,8 +149,8 @@ export function TaskPostCard({
               <Tag className="h-3.5 w-3.5" />
               {category}
             </span>
-            <span className="rounded-full bg-white/85 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-900">
-              {variant === 'classified' ? 'Open now' : 'Verified'}
+            <span className="rounded-full bg-white/90 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#05201c]">
+              {variant === 'classified' ? 'Featured' : 'Verified'}
             </span>
           </div>
         </div>
