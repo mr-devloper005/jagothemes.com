@@ -3,8 +3,6 @@ import { PageShell } from '@/components/shared/page-shell'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { mockTeamMembers } from '@/data/mock-data'
 import { SITE_CONFIG } from '@/lib/site-config'
 
 const highlights = [
@@ -72,39 +70,6 @@ export default function AboutPage() {
               <CardContent className="p-6 sm:p-7">
                 <h3 className="text-lg font-semibold text-[#05201c]">{value.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-[#3d5249]">{value.description}</p>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </div>
-
-      <div className="mt-12 border-t border-[#0a3d2e]/10 pt-12">
-        <div className="mb-8 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#008c72]">People behind the product</p>
-            <h2 className="mt-2 text-2xl font-bold text-[#05201c]">Meet part of our crew</h2>
-            <p className="mt-2 max-w-xl text-sm text-[#3d5249]">Product, trust & safety, and local partnerships — the faces you might already see in release notes and community threads.</p>
-          </div>
-          <Button variant="outline" asChild className="w-fit rounded-full border-[#0a3d2e]/20 text-[#05201c] hover:bg-[#f0f7f4]">
-            <Link href="/team">Full team directory</Link>
-          </Button>
-        </div>
-        <div className="grid gap-6 md:grid-cols-3">
-          {mockTeamMembers.map((member) => (
-            <Card key={member.id} className={`${cardFrame} transition-transform hover:-translate-y-0.5`}>
-              <CardContent className="p-6">
-                <div className="flex items-center gap-3">
-                  <Avatar className="h-12 w-12 border border-[#0a3d2e]/10">
-                    <AvatarImage src={member.avatar} alt={member.name} />
-                    <AvatarFallback className="bg-[#05201c] text-white">{member.name.charAt(0)}</AvatarFallback>
-                  </Avatar>
-                  <div>
-                    <p className="text-sm font-semibold text-[#05201c]">{member.name}</p>
-                    <p className="text-xs text-[#3d5249]">{member.role}</p>
-                  </div>
-                </div>
-                <p className="mt-4 text-sm leading-relaxed text-[#3d5249]">{member.bio}</p>
-                <p className="mt-3 text-xs font-medium text-[#008c72]">{member.location}</p>
               </CardContent>
             </Card>
           ))}
