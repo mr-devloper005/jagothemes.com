@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Headphones, LifeBuoy, MapPin, MessageCircle } from 'lucide-react'
+import { Headphones, LifeBuoy, Mail, MapPin, MessageCircle } from 'lucide-react'
 import { NavbarShell } from '@/components/shared/navbar-shell'
 import { Footer } from '@/components/shared/footer'
 import { SITE_CONFIG } from '@/lib/site-config'
@@ -98,7 +98,17 @@ export default function ContactPage() {
                 Send message
               </button>
             </form>
-            <p className="mt-6 text-center text-xs text-[#3d5249]">
+            <div className="mt-6 flex items-center justify-center gap-2">
+              <span className="text-xs text-[#3d5249]">Or email us directly at</span>
+              <a
+                href={`mailto:${process.env.NEXT_PUBLIC_CONTACT_EMAIL}`}
+                className="inline-flex items-center gap-1.5 rounded-full border border-[#008c72]/20 bg-[#008c72]/5 px-3 py-1.5 text-xs font-semibold text-[#008c72] transition hover:bg-[#008c72]/10"
+              >
+                <Mail className="h-3.5 w-3.5" />
+                {process.env.NEXT_PUBLIC_CONTACT_EMAIL}
+              </a>
+            </div>
+            <p className="mt-4 text-center text-xs text-[#3d5249]">
               Prefer self-serve?{' '}
               <Link href="/help" className="font-semibold text-[#008c72] hover:underline">
                 Help center
