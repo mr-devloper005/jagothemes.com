@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { ArrowRight, Bookmark, Bike, Car, ChevronDown, FileText, Home, Image as ImageIcon, MapPin, Play, Search, Smartphone, Sparkles, Star, Tag, User } from 'lucide-react'
+import { ArrowRight, Bookmark, Bike, Car, ChevronDown, FileText, Home, Image as ImageIcon, MapPin, Search, Smartphone, Sparkles, Star, Tag, User } from 'lucide-react'
 import { ContentImage } from '@/components/shared/content-image'
 import { NavbarShell } from '@/components/shared/navbar-shell'
 import { Footer } from '@/components/shared/footer'
@@ -157,10 +157,10 @@ function DirectoryHome({ primaryTask, enabledTasks, listingPosts, classifiedPost
         <div className="relative mx-auto max-w-7xl px-4 pb-20 pt-10 sm:px-6 lg:px-8 lg:pb-24 lg:pt-14">
           <div className="mx-auto max-w-3xl text-center">
             <h1 className="font-sans text-4xl font-bold leading-[1.1] tracking-tight sm:text-5xl lg:text-[3.25rem]">
-              Sell your home&apos;s extra products
+              Buy and sell locally with jagothemes
             </h1>
             <p className="mx-auto mt-5 max-w-2xl text-sm leading-relaxed text-white/85 sm:text-base">
-              Turn unused items into cash. Post in minutes, reach serious buyers nearby, and keep every conversation in one calm classifieds flow.
+              Find trusted local deals or list your unused items in minutes. Connect with nearby buyers and sellers across vehicles, mobiles, homes, bikes, and more.
             </p>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
               <Link
@@ -168,20 +168,12 @@ function DirectoryHome({ primaryTask, enabledTasks, listingPosts, classifiedPost
                 className="inline-flex items-center gap-2 rounded-full bg-[#008c72] px-7 py-3.5 text-sm font-semibold text-white shadow-[0_12px_40px_rgba(0,140,114,0.35)] transition hover:bg-[#007764]"
               >
                 <Sparkles className="h-4 w-4" />
-                Post Ad Now
+                Post Your Ad
               </Link>
             </div>
-            <button
-              type="button"
-              className="mx-auto mt-6 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm text-white/90 backdrop-blur-sm"
-            >
-              <MapPin className="h-4 w-4 text-[#7fe8d4]" />
-              Bangladesh
-              <ChevronDown className="h-4 w-4 opacity-70" />
-            </button>
             <form action="/search" className="mx-auto mt-8 flex max-w-xl items-center gap-2 rounded-full bg-white p-2 pl-5 shadow-[0_20px_60px_rgba(0,0,0,0.2)]">
               <Search className="h-5 w-5 shrink-0 text-[#05201c]/40" />
-              <input name="q" className="min-w-0 flex-1 bg-transparent text-sm text-[#05201c] outline-none placeholder:text-[#05201c]/45" placeholder="Search to buy" />
+              <input name="q" className="min-w-0 flex-1 bg-transparent text-sm text-[#05201c] outline-none placeholder:text-[#05201c]/45" placeholder="Search products, vehicles, homes..." />
               <button type="submit" className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#008c72] text-white transition hover:bg-[#007764]" aria-label="Search">
                 <Search className="h-5 w-5" />
               </button>
@@ -227,7 +219,6 @@ function DirectoryHome({ primaryTask, enabledTasks, listingPosts, classifiedPost
               <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent" />
               <div className="absolute inset-x-0 bottom-0 p-5">
                 <p className="text-lg font-bold text-white">{item.title}</p>
-                <p className="mt-1 text-sm text-white/80">{item.count} ads</p>
               </div>
             </Link>
           ))}
@@ -288,13 +279,6 @@ function DirectoryHome({ primaryTask, enabledTasks, listingPosts, classifiedPost
                 <Sparkles className="h-4 w-4" />
                 Post Ad
               </Link>
-              <button
-                type="button"
-                className="inline-flex items-center gap-2 rounded-full border border-white/35 bg-transparent px-6 py-3 text-sm font-semibold text-white hover:bg-white/10"
-              >
-                <Play className="h-4 w-4 fill-current" />
-                Play tutorial
-              </button>
             </div>
           </div>
         </div>
