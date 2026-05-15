@@ -257,9 +257,6 @@ export async function TaskListPage({ task, category }: { task: TaskKey; category
                       <Search className="h-4 w-4" />
                       Search everything
                     </Link>
-                    <Link href="/contact" className="inline-flex items-center gap-2 rounded-full border border-white/20 px-5 py-3 text-sm font-semibold text-white/95 transition hover:bg-white/10">
-                      Partner with us
-                    </Link>
                   </div>
                 </div>
                 <div className="grid gap-3 sm:grid-cols-3 lg:max-w-md lg:grid-cols-1">
@@ -276,26 +273,6 @@ export async function TaskListPage({ task, category }: { task: TaskKey; category
                     <p className="mt-1 text-xs text-white/65">Structured categories</p>
                   </div>
                 </div>
-              </div>
-              <div className="relative mt-10 flex flex-wrap gap-2 border-t border-white/10 pt-8">
-                <span className="mr-1 w-full text-[11px] font-semibold uppercase tracking-[0.2em] text-white/55 sm:w-auto sm:mr-3">
-                  Jump to
-                </span>
-                <Link
-                  href="/classifieds"
-                  className={`rounded-full px-3.5 py-1.5 text-xs font-semibold transition ${normalizedCategory === 'all' ? 'bg-white text-[#05201c]' : 'bg-white/10 text-white hover:bg-white/15'}`}
-                >
-                  All
-                </Link>
-                {CLASSIFIED_CATEGORY_OPTIONS.map((item) => (
-                  <Link
-                    key={item.slug}
-                    href={`/classifieds?category=${item.slug}`}
-                    className={`rounded-full px-3.5 py-1.5 text-xs font-semibold transition ${normalizedCategory === item.slug ? 'bg-white text-[#05201c]' : 'bg-white/10 text-white hover:bg-white/15'}`}
-                  >
-                    {item.name}
-                  </Link>
-                ))}
               </div>
             </div>
           </section>
@@ -363,19 +340,6 @@ export async function TaskListPage({ task, category }: { task: TaskKey; category
           </section>
         ) : null}
 
-        {intro ? (
-          <section className={`mb-12 rounded-[2rem] p-6 shadow-[0_18px_50px_rgba(15,23,42,0.06)] sm:p-8 ${ui.panel}`}>
-            <h2 className="text-2xl font-semibold text-foreground">{intro.title}</h2>
-            {intro.paragraphs.map((paragraph) => (
-              <p key={paragraph.slice(0, 40)} className={`mt-4 text-sm leading-7 ${ui.muted}`}>{paragraph}</p>
-            ))}
-            <div className="mt-4 flex flex-wrap gap-4 text-sm">
-              {intro.links.map((link) => (
-                <a key={link.href} href={link.href} className="font-semibold text-foreground hover:underline">{link.label}</a>
-              ))}
-            </div>
-          </section>
-        ) : null}
 
         {isClassifiedHomeShell ? (
           <div className="grid gap-8 lg:grid-cols-[minmax(0,260px)_1fr] lg:items-start">
@@ -434,13 +398,6 @@ export async function TaskListPage({ task, category }: { task: TaskKey; category
             </aside>
             <div>
               <div className="mb-6 flex flex-col gap-4 lg:flex-row lg:items-center">
-                <button
-                  type="button"
-                  className={`inline-flex h-11 shrink-0 items-center justify-center gap-2 rounded-xl border px-4 text-sm font-semibold ${ui.soft}`}
-                >
-                  <Filter className="h-4 w-4" />
-                  Advance Filter
-                </button>
                 <form action="/search" className="flex w-full flex-1 items-center gap-2 rounded-full border border-[#0a3d2e]/12 bg-white p-2 pl-4 shadow-sm">
                   <Search className="h-4 w-4 shrink-0 text-[#05201c]/40" />
                   <input name="q" className="min-w-0 flex-1 bg-transparent text-sm text-[#05201c] outline-none placeholder:text-[#05201c]/45" placeholder="Search to buy" />
@@ -448,22 +405,13 @@ export async function TaskListPage({ task, category }: { task: TaskKey; category
                     <Search className="h-4 w-4" />
                   </button>
                 </form>
-                <div className="flex shrink-0 items-center gap-2 lg:ml-auto">
-                  <span className={`hidden text-xs font-semibold uppercase tracking-wide sm:inline ${ui.muted}`}>Ads views</span>
-                  <span className={`inline-flex rounded-lg border p-2 ${ui.soft}`}>
-                    <LayoutGrid className="h-4 w-4" />
-                  </span>
-                  <span className={`inline-flex rounded-lg border p-2 ${ui.panel}`}>
-                    <LayoutGrid className="h-4 w-4 rotate-90 opacity-60" />
-                  </span>
-                </div>
               </div>
               <form className={`mb-6 flex flex-wrap items-end gap-3 rounded-[15px] p-4 ${ui.panel}`} action={taskConfig?.route || '#'}>
                 <div>
                   <label className={`block text-[10px] font-semibold uppercase tracking-wider ${ui.muted}`}>Category</label>
                   <select name="category" defaultValue={normalizedCategory} className={`mt-1.5 h-10 min-w-[10rem] rounded-xl px-3 text-sm ${ui.input}`}>
                     <option value="all">All categories</option>
-                    {CLASSIFIED_CATEGORY_OPTIONS.map((item) => (
+                    {CATEGORY_OPTIONS.map((item) => (
                       <option key={item.slug} value={item.slug}>
                         {item.name}
                       </option>
